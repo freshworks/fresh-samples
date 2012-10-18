@@ -1,0 +1,27 @@
+<html>
+<body>
+  <!-- 
+      this code passes the email ID of the requestor to a 
+      third party store called my inventory and brings back the order details of this customer 
+      -->
+
+  <div id="ordersWidget" title="Customer Orders History">
+    <div class="content"><span id="orderDetails">N/A</span></div>
+  </div>
+  <script type="text/javascript">
+    jQuery.ajax{
+      // Parse ticket data as JSONP when referencing external (non Freshdesk) site      
+      dataType: 'jsonp',
+      // Location of your external data source such as CRM or legacy database
+      url:"http://mystoreinventory.freshdesk.com/orders.php",
+      // We are passing requestor email to the external db
+      data: {requestor_email:"{{requestor.email}}",
+      // define how you want your widget to respond when your app returns data
+      success:function(response){
+        if (response.order_count<>0){
+          jQuery("#ordersWidget .content #orderDetails".text(response.order_count);
+        }
+      }
+    }       
+  </script>
+</body>
