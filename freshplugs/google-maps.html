@@ -1,0 +1,39 @@
+<!--
+This custom widget depends on 2 custom fields - Latitude and Longitude. Please create these 2 fields with same names and paste this complete code inside the Script area of the Custom Widget.
+-->
+<div id="gmaps_integration">
+<div class="content">
+<h4>Issue Location</h4>
+<div id='map_canvas' style="width: 260px; height: 260px;"></div>
+</div>
+<div class="error" id="map_error"></div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+<script type="text/javascript">
+if (String('{{ticket.latitude}}') != "" && String('{{ticket.longitude}}') !="" && Number('{{ticket.latitude}}') != NaN && Number('{{ticket.longitude}}') != NaN) {
+  var lat = Number('{{ticket.latitude}}');
+  var lng = Number('{{ticket.longitude}}');
+
+  var map;
+  function initialize() {
+    var myLatlng = new google.maps.LatLng(lat,lng);
+    var mapOptions = {
+      zoom: 9,
+      center: myLatlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+
+    var marker = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      title: 'Reported Location'
+    });
+  }
+
+  google.maps.event.addDomListener(window, 'load', initialize);
+} else {
+  jQuery('#map_error').text('No location available');
+  jQuery('#map_canvas').hide();
+}
+</script>
