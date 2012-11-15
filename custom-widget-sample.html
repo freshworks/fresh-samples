@@ -19,7 +19,7 @@
       // define how you want your widget to respond when your app returns data
       success:function(response){
         if (response.order_count<>0){
-          jQuery("#ordersWidget .content #orderDetails".text(response.order_count);
+          jQuery("#ordersWidget .content #orderDetails").text(response.order_count);
         }
       }
     }       
