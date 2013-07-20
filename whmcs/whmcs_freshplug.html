@@ -1,0 +1,48 @@
+<div id="whmcs_widget">
+<h3 class="w-title">WHMCS</h3>
+  <div class="content"></div>
+  <div class="error hide"></div>
+ </div>
+
+<script type="text/javascript" src="/javascripts/integrations/whmcsjs.js">
+</script>
+<script type="text/javascript">
+//specify the access url for freshdesk_widget.php.
+var whmcs_url = 'http://mywhmcs.domain.com/whmcs/freshdesk_widget.php?'
+
+//Specify your app access key.
+whmcs_data={ app_key:"test12345", email:"{{requester.email}}",agent:"{{current_user.email}}"}; 
+
+if(whmcs_data.email.trim() ==""){
+ jQuery("#whmcs_widget .error").removeClass("hide");
+ jQuery("#whmcs_widget .error").html("Email Not found for requester.");
+
+}
+else{
+jQuery.ajax({
+          type: 'POST',    
+          url: whmcs_url, 
+          data:whmcs_data,     
+          cache:false,
+          timeout: 30000
+        }).always(function(){ 
+               jQuery('#whmcs_widget .content').removeClass('sloading')
+            }).done(function(data) {
+                    var html = [];
+           whmcsBundle={app_name:"whmcs"}; 
+           whmcsWidget = new Freshdesk.WhmcsWidget(whmcsBundle,data);
+            }).fail(function(jqXHR, textStatus,error){
+               jQuery('#whmcs_widget .error').removeClass("hide");
+             message ="Error:";
+              if(textStatus == 'timeout')
+             {     
+               message +='Failed from timeout, Check server reachable'; 
+             }
+             else {
+                 message +=error;
+             }
+          jQuery("#whmcs_widget .error").html(message);
+});  
+}
+
+</script>
