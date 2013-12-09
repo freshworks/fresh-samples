@@ -8,7 +8,7 @@ require "json"
 # eg:
 # site = RestClient::Resource.new("http://domain.freshdesk.com/groups/2.json","sample@freshdesk.com","test")
 
-site = RestClient::Resource.new("http://localhost:3000/groups/[group_id].json","sample@freshdesk.com","test")
+site = RestClient::Resource.new("http://domain.freshdesk/groups/[group_id].json","sample@freshdesk.com","test")
 
 response = site.delete(:accept=>"application/json")
 
