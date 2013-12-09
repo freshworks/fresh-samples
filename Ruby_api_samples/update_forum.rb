@@ -4,7 +4,11 @@ require "rubygems"
 require "rest_client"
 require "json"
 
-site = RestClient::Resource.new("http://domain.freshdesk.com/categories/4/forums/11.json","sample@freshdesk.com","test")
+# Need to specify category_id,forum_id in url
+# eg:
+# site = RestClient::Resource.new("http://domain.freshdesk.com/categories/4/forums/11.json","sample@freshdesk.com","test")
+
+site = RestClient::Resource.new("http://domain.freshdesk.com/categories/[category_id]/forums/[forum_id].json","sample@freshdesk.com","test")
 
 #Forum type: 1-Questions,2-Ideas,3-Problems,4-Announcements	
 #Forum_visibility: 1-All,2-Logged in users,3-Agents, 4- selected companies[need to provide customer_ids for this option]

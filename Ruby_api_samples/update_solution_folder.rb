@@ -4,7 +4,11 @@ require "rubygems"
 require "rest_client"
 require "json"
 
-site = RestClient::Resource.new("http://domain.freshdesk.com/solution/categories/1813/folders/3216.json","sample@freshdesk.com","test")
+# Need to specify category_id and folder_id in url
+# eg:
+# site = RestClient::Resource.new("http://domain.freshdesk.com/solution/categories/1/folders/2.json","sample@freshdesk.com","test")
+
+site = RestClient::Resource.new("http://domain.freshdesk.com/solution/categories/[category_id]/folders/[folder_id].json","sample@freshdesk.com","test")
 
 #visibility : 1 = All, 2 = Logged in Users, 3 = Agents, 4 = Select Companies [need to provide customer_ids for this option]
 
