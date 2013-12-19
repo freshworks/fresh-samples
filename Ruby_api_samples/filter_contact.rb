@@ -4,9 +4,9 @@ require "rubygems"
 require "rest_client"
 require "json"
 	
-#contacts can also be filtered by name,phone,email etc
+#contacts can also be filtered by phone,email etc
 
-params = URI.escape("query=name is test")
+params = URI.escape("query=phone is 123245890")
 
 puts "#{params}"
 
