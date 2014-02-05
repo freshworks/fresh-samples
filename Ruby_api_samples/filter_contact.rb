@@ -12,7 +12,7 @@ puts "#{params}"
 
 #state can be of type [verified/unverified/all/deleted]
 
-site=RestClient::Resource.new("http://localhost:3000/contacts.json?#{params}&state=all","sample@freshdesk.com","test")
+site=RestClient::Resource.new("http://yourcompany.freshdesk.com/contacts.json?#{params}&state=all","sample@freshdesk.com","test")
 
 response=site.get(:accept=>"application/json")
 
