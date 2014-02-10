@@ -13,6 +13,6 @@ site = RestClient::Resource.new("http://domain.freshdesk.com/solution/categories
 #Status: 1-Draft,2-Published	
 #art_type: 1-Permanent,2-Workaround
 
-response = site.post({:solution_article=>{:title=>"test title",:status=>1,:art_type=>2,:description=>"Testing",:folder_id=>5}},:content_type=>"application/json")
+response = site.post({:solution_article=>{:title=>"test title",:status=>1,:art_type=>2,:description=>"Testing",:folder_id=>5,:attachments=>{''=>[{:resource=>File.new("/document.rtf", 'rb')}]}}},:content_type=>"application/json")
 
 puts "response: #{response.code} \n #{response.body} \n"
