@@ -4,15 +4,15 @@ require "rubygems"
 require "rest_client"
 require "json"
 	
-#contacts can also be filtered by name,phone,email etc
+#contacts can also be filtered by phone,email etc
 
-params = URI.escape("query=name is test")
+params = URI.escape("query=phone is 123245890")
 
 puts "#{params}"
 
 #state can be of type [verified/unverified/all/deleted]
 
-site=RestClient::Resource.new("http://localhost:3000/contacts.json?#{params}&state=all","sample@freshdesk.com","test")
+site=RestClient::Resource.new("http://yourcompany.freshdesk.com/contacts.json?#{params}&state=all","sample@freshdesk.com","test")
 
 response=site.get(:accept=>"application/json")
 
