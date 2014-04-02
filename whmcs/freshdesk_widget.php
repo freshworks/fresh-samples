@@ -70,6 +70,8 @@ function call_api($fields = array()) {
 	curl_setopt($ch, CURLOPT_TIMEOUT, 1000);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+	//Uncomment the below line for SSL enabled freshdesk accounts
+	//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
 	$response = curl_exec($ch);
 
