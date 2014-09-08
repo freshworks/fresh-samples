@@ -2,5 +2,5 @@
 
 ### C-Sharp
 
-* Beckersoft has released [Freshdesk API wrapper in C-Sharp](https://github.com/jjb3rd/Freshdesk.Net).
+* [Beckersoft](http://beckersoft.com/news/2014/09/06/freshdesk-and-insightly-net-projects-released-as-open-source/) has released [Freshdesk API wrapper in C-Sharp](https://github.com/jjb3rd/Freshdesk.Net).
 
