@@ -20,7 +20,6 @@ $header[] = "Content-type: application/json";
 $connection = curl_init("$fd_domain/helpdesk/tickets.json");
 curl_setopt($connection, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($connection, CURLOPT_HTTPHEADER, $header);
-curl_setopt($connection, CURLOPT_FOLLOWLOCATION, true);
 curl_setopt($connection, CURLOPT_HEADER, false);
 curl_setopt($connection, CURLOPT_USERPWD, "$token:$password");
 curl_setopt($connection, CURLOPT_POST, true);
