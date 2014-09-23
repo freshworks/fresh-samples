@@ -10,6 +10,7 @@ define('FRESHDESK_DOMAIN', 'http://mycompany.freshdesk.com');
 define('WHMCS_API_ACCESS_KEY', 'abc123'); #Specify the apiaccesskey or whitelist the access machines ips for api calls in WHMCS app.
 
 header('Access-Control-Allow-Origin: '.FRESHDESK_DOMAIN);
+header('Access-Control-Allow-Headers: '.'x-csrf-token');
 header('Content-Type: application/json; charset=utf-8');
 
 check_proper_request();
