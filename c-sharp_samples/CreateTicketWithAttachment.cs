@@ -8,7 +8,7 @@ namespace FreshdeskTest
     class CreateTicketWithAttachment
     {
         private const string _APIKey = "YOUR_API_KEY";
-        private const string _Url = "http://YOUR_DOMAIN.freshdesk.com/helpdesk/tickets.json";
+        private const string _Url = "http://YOUR_DOMAIN.freshdesk.com/helpdesk/tickets.json"; // verify if you have to use http or https for your account
         
         private static void writeCRLF(Stream o)
         {
