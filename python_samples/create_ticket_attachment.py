@@ -6,12 +6,13 @@ import requests
 FRESHDESK_ENDPOINT = "http://YOUR_DOMAIN.freshdesk.com" # check if you have configured https, modify accordingly
 FRESHDESK_KEY = "YOUR_API_KEY"
 
-multipart_data = {
-    'helpdesk_ticket[email]': ('', 'example@example.com'),
-    'helpdesk_ticket[subject]': ('', 'Ticket Title'),
-    'helpdesk_ticket[description]': ('', 'Ticket description.'),
-    'helpdesk_ticket[attachments][][resource]': open('create_ticket_attachment.py', 'rb')
-}
+multipart_data = (
+    ('helpdesk_ticket[email]', ('','example@example.com')),
+    ('helpdesk_ticket[subject]', ('', 'Ticket Title')),
+    ('helpdesk_ticket[description]', ('', 'Ticket description.')),
+    ('helpdesk_ticket[attachments][][resource]', open('create_ticket_attachment.py', 'rb')),
+    ('helpdesk_ticket[attachments][][resource]', open('/etc/hosts', 'rb')),
+)
 r = requests.post(FRESHDESK_ENDPOINT + '/helpdesk/tickets.json',
         auth=(FRESHDESK_KEY, "X"),
         files=multipart_data)
