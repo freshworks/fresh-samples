@@ -3,9 +3,6 @@
 $API_KEY = "YOUR_API_KEY";
 $FD_ENDPOINT = "http://YOUR_DOMAIN.freshdesk.com"; // verify if you are using https, and change accordingly!
 
-$email="sample@freshdesk.com";
-$password="test";
-
 $payload = array(
   'helpdesk_ticket[email]' => 'test@example.com',
   'helpdesk_ticket[subject]' => 'test',
