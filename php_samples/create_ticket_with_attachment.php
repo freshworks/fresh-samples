@@ -14,7 +14,7 @@ $header[] = "Content-type: multipart/form-data";
 
 $url = "$FD_ENDPOINT/helpdesk/tickets.json";
 
-$ch = curl_init ($url);
+$ch = curl_init($url);
 
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
