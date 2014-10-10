@@ -5,11 +5,8 @@
 $API_KEY = "YOUR_API_KEY";
 $FD_ENDPOINT = "http://YOUR_DOMAIN.freshdesk.com"; // verify if you are using https, and change accordingly!
 
-# Requestor details:
-$email = "sample@example.com";
-$password = "test";
-
 # Attachment details:
+
 class FileDetail {
   public $path;
   public $name;
@@ -56,11 +53,11 @@ $data .= "--" . $mime_boundary . "--" . $eol . $eol;
 $header[] = "Content-type: multipart/form-data; boundary=" . $mime_boundary;
 
 $url = "$FD_ENDPOINT/helpdesk/tickets.json";
-$ch = curl_init ($url);
+
+$ch = curl_init($url);
 
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
-
 curl_setopt($ch, CURLOPT_USERPWD, "$API_KEY:X");
 curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 curl_setopt($ch, CURLOPT_HEADER, false);
@@ -68,12 +65,12 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-$server_output = curl_exec ($ch);
+
+$server_output = curl_exec($ch);
 
 $response = json_decode($server_output);
 var_dump($response);
 
-curl_close ($ch);
-echo "\n";
+curl_close($ch);
 
 ?>
