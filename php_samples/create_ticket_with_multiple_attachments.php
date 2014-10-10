@@ -29,7 +29,7 @@ $mime_boundary = md5(time());
 
 $data .= '--' . $mime_boundary . $eol;
 $data .= 'Content-Disposition: form-data; name="helpdesk_ticket[email]"' . $eol . $eol;
-$data .= "sample@freshdesk.com" . $eol;
+$data .= "sample@example.com" . $eol;
 
 $data .= '--' . $mime_boundary . $eol;
 $data .= 'Content-Disposition: form-data; name="helpdesk_ticket[subject]"' . $eol . $eol;

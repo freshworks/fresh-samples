@@ -32,6 +32,6 @@ $server_output = curl_exec($ch);
 $response = json_decode($server_output);
 var_dump($response);
 
-curl_close ($ch);
+curl_close($ch);
 
 ?>
