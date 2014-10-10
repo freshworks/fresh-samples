@@ -12,7 +12,7 @@ $password = "test";
 # Attachment details:
 class FileDetail {
   public $path;
-  public $fileName;
+  public $name;
   public $contentType;
   
   function __construct($path, $name, $contentType) {
