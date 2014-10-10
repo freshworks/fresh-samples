@@ -44,14 +44,12 @@ $data .= "test" . $eol;
 
 $data .= '--' . $mime_boundary . $eol;
 $data .= 'Content-Disposition: form-data; name="helpdesk_ticket[attachments][][resource]"; filename="' . $file1->name . '"' . $eol;
-$data .= "Content-Type: $file1->contentType" . $eol;
-$data .= 'Content-Transfer-Encoding: base64' . $eol . $eol;
+$data .= "Content-Type: $file1->contentType" . $eol . $eol;
 $data .= file_get_contents($file1->path) . $eol;
 
 $data .= '--' . $mime_boundary . $eol;
 $data .= 'Content-Disposition: form-data; name="helpdesk_ticket[attachments][][resource]"; filename="' . $file2->name . '"' . $eol;
-$data .= "Content-Type: $file2->contentType" . $eol;
-$data .= 'Content-Transfer-Encoding: base64' . $eol . $eol;
+$data .= "Content-Type: $file2->contentType" . $eol . $eol;
 $data .= file_get_contents($file2->path) . $eol;
 $data .= "--" . $mime_boundary . "--" . $eol . $eol;
 
