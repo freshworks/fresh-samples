@@ -32,11 +32,6 @@
             <version>2.13</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jsonp-jaxrs</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
             <groupId>org.wiztools.commons</groupId>
             <artifactId>wiztools-commons-lib</artifactId>
             <version>0.4.1</version>
