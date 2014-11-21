@@ -83,8 +83,6 @@ public class PostServlet extends HttpServlet {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .build("POST", entity).invoke(String.class);
         
-        System.out.println(XmlEntityEncode.encode(fdRes));
-        
         try(PrintWriter out = response.getWriter()) {
             out.println("<html>");
             out.println("<body>");
