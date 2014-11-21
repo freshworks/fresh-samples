@@ -4,7 +4,7 @@ Example uses a servlet to create a Freshdesk ticket from a HTML form.
 
 ### Configure API Key and Freshdesk Domain
 
-These are in the properties file [fd.properties](src/test/resources/fd.properties). Change the property and build.
+These are in the properties file [fd.properties](https://github.com/freshdesk/fresh-samples/blob/master/java_samples/javaee-jerseyclient/src/main/resources/fd.properties). Change the property and build.
 
 ### Build
 
