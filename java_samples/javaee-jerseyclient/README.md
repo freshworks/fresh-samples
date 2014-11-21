@@ -18,4 +18,4 @@ Requires a JavaEE server like [Tomcat](http://tomcat.apache.org/) or [Glassfish]
 
 ### Run
 
-For example, if you are deploying in the Tomcat container with default configuration, the URL to access the app: http://localhost:8080/
+For example, if you are deploying in the Tomcat container with default configuration, the URL to access the app: [http://localhost:8080/javaee-jerseyclient](http://localhost:8080/javaee-jerseyclient/).
