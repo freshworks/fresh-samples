@@ -1,7 +1,7 @@
 var https = require("https");
 
-var API_KEY = "YOUR-API-KEY";
-var FD_ENDPOINT = "domain.freshdesk.com";
+var API_KEY = "YOUR_API_KEY";
+var FD_ENDPOINT = "YOUR_DOMAIN.freshdesk.com";
 var ticketBody = {
   "helpdesk_ticket":{
     "subject":"Ticket title",
