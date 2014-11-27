@@ -6,7 +6,7 @@ var ticketBody = {
   "helpdesk_ticket":{
     "subject":"Ticket title",
     "description":"Ticket description.",
-    "email":"nice@gh.com",
+    "email":"example@example.com",
     "priority":1,
     "status":2
   }
