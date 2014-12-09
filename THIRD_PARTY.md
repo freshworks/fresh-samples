@@ -12,3 +12,6 @@
 
 * [freshdesk-api](https://github.com/dvliman/freshdesk-api/) by [dvliman](https://github.com/dvliman).
 
+### Python
+
+* [Ed Menendez](https://github.com/edmenendez) has written [a Python class](https://gist.github.com/edmenendez/993c4a5823a97499118a) to wrap Freshdesk requests.
