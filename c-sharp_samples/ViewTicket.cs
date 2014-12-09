@@ -8,7 +8,7 @@ class Program
     static void Main()
     {
       string test = String.Empty;
-     // Example : HttpWebRequest request =(HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/helpdesk/tickets/1.json");  
+      // Example : HttpWebRequest request =(HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/helpdesk/tickets/1.json");  
       HttpWebRequest request =(HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/helpdesk/tickets/[id].json");  
       request.ContentType = "application/json"; 
       request.Method = "GET"; 
