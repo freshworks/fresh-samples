@@ -6,8 +6,7 @@
   $ch = curl_init ($url);
   
   curl_setopt($ch, CURLOPT_USERPWD, "$email:$password");
-  curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-  curl_setopt($connection, CURLOPT_HEADER, false);
+  curl_setopt($ch, CURLOPT_HEADER, false);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
   curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -17,8 +16,8 @@
   $tickets = json_decode($server_output);
   
   foreach ($tickets as $key => $ticket) {
-      echo $ticket->subject;
-      
+      echo $ticket->subject . "\n";
   }
   curl_close ($ch);
 ?>
+
