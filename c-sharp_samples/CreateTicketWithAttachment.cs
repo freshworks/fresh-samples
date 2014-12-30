@@ -16,9 +16,10 @@ namespace FreshdeskTest
             o.Write(crLf, 0, crLf.Length);
         }
         
-        private static void writeBoundaryBytes(Stream o, string b)
+        private static void writeBoundaryBytes(Stream o, string b, bool isFinalBoundary)
         {
-            byte[] d = Encoding.ASCII.GetBytes("--" + b + "\r\n");
+            string boundary = isFinalBoundary == true ? "--" + b + "--" : "--" + b + "\r\n";
+            byte[] d = Encoding.ASCII.GetBytes(boundary);
             o.Write(d, 0, d.Length);
         }
         
@@ -69,25 +70,25 @@ namespace FreshdeskTest
             using (var rs = wr.GetRequestStream())
             {
                 // Email:
-                writeBoundaryBytes(rs, boundary);
+                writeBoundaryBytes(rs, boundary, false);
                 writeContentDispositionFormDataHeader(rs, "helpdesk_ticket[email]");
                 writeString(rs, "example@example.com");
                 writeCRLF(rs);
                 
                 // Subject:
-                writeBoundaryBytes(rs, boundary);
+                writeBoundaryBytes(rs, boundary, false);
                 writeContentDispositionFormDataHeader(rs, "helpdesk_ticket[subject]");
                 writeString(rs, "Ticket Title");
                 writeCRLF(rs);
                 
                 // Description:
-                writeBoundaryBytes(rs, boundary);
+                writeBoundaryBytes(rs, boundary, false);
                 writeContentDispositionFormDataHeader(rs, "helpdesk_ticket[description]");
                 writeString(rs, "Ticket description.");
                 writeCRLF(rs);
                 
                 // Attachment:
-                writeBoundaryBytes(rs, boundary);
+                writeBoundaryBytes(rs, boundary, false);
                 writeContentDispositionFileHeader(rs, "helpdesk_ticket[attachments][][resource]", "x.txt", "text/plain");
                 FileStream fs = new FileStream("x.txt", FileMode.Open, FileAccess.Read);
                 byte[] data = new byte[fs.Length];
@@ -97,7 +98,7 @@ namespace FreshdeskTest
                 writeCRLF(rs);
                 
                 // End marker:
-                writeBoundaryBytes(rs, boundary);
+                writeBoundaryBytes(rs, boundary, true);
                 
                 rs.Close();
             }
