@@ -14,4 +14,5 @@
 
 ### Python
 
+* [Python API wrapper](https://github.com/sjkingo/python-freshdesk) written by [Sam Kingston](https://github.com/sjkingo). Uses [requests library](http://docs.python-requests.org/en/latest/).
 * [Ed Menendez](https://github.com/edmenendez) has written [a Python class](https://gist.github.com/edmenendez/993c4a5823a97499118a) to wrap Freshdesk requests.
