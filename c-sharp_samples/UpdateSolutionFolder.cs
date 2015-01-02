@@ -7,12 +7,13 @@ class Program
 {
     static void Main()
     {
-        string json = "{\"user\": {\"email\":\"test@test.com\",\"name\":\"Super man\"}}";
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/contacts.json"); 
+        string json = "{ \"solution_folder\": { \"visibility\":1, \"description\":\"Tickets API related Operations\" }}";
+        //Example: HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/solution/categories/4/folders/1.json"); 
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/solution/categories/[category_id]/folders/[folder_id].json"); 
         //HttpWebRequest class is used to Make a request to a Uniform Resource Identifier (URI).  
         request.ContentType = "application/json"; 
         // Set the ContentType property of the WebRequest. 
-        request.Method = "POST"; 
+        request.Method = "PUT"; 
         byte[] byteArray = Encoding.UTF8.GetBytes(json); 
         // Set the ContentLength property of the WebRequest. 
         request.ContentLength = byteArray.Length;  
@@ -28,7 +29,7 @@ class Program
         dataStream.Close(); 
         WebResponse response = request.GetResponse(); 
         // Get the stream containing content returned by the server.
-        //Send the request to the server by calling GetResponse. 
+        // Send the request to the server by calling GetResponse. 
         dataStream = response.GetResponseStream(); 
         // Open the stream using a StreamReader for easy access. 
         StreamReader reader = new StreamReader(dataStream); 

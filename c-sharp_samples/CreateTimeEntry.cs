@@ -7,8 +7,10 @@ class Program
 {
     static void Main()
     {
-        string json = "{\"user\": {\"email\":\"test@test.com\",\"name\":\"Super man\"}}";
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/contacts.json"); 
+        string json = "{ \"time_entry\": {\"note\":\"Invoice Prepartion\", \"hhmm\":10.40, \"user_id\":1 }}";
+        //Example: HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/helpdesk/tickets/41/time_sheets.json"); 
+        //Note: If you don't specify in the API Request, the timer-running attribute will be set to 'true' and the activities will get clocked once the timesheet is created.
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/helpdesk/tickets/[ticket_id]/time_sheets.json"); 
         //HttpWebRequest class is used to Make a request to a Uniform Resource Identifier (URI).  
         request.ContentType = "application/json"; 
         // Set the ContentType property of the WebRequest. 

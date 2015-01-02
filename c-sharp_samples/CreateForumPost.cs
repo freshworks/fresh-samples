@@ -7,8 +7,9 @@ class Program
 {
     static void Main()
     {
-        string json = "{\"user\": {\"email\":\"test@test.com\",\"name\":\"Super man\"}}";
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/contacts.json"); 
+        string json = "{ \"post\": { \"body_html\":\"What type of ticket field you are creating\" }}";
+        //Example : HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/discussions/topics/1/posts.json"); 
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/discussions/topics/[topic_id]/posts.json"); 
         //HttpWebRequest class is used to Make a request to a Uniform Resource Identifier (URI).  
         request.ContentType = "application/json"; 
         // Set the ContentType property of the WebRequest. 
