@@ -8,8 +8,8 @@ class Program
     static void Main()
     {
       string test = String.Empty;
-      // Example : HttpWebRequest request =(HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/discussions/1.json");  
-      HttpWebRequest request =(HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/discussions/[id].json");  
+      // Example : HttpWebRequest request =(HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/discussions/categories/1.json");  
+      HttpWebRequest request =(HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/discussions/categories/[id].json");  
       request.ContentType = "application/json"; 
       request.Method = "GET"; 
       string authInfo = "Api_Key:X";

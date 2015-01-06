@@ -8,7 +8,7 @@ class Program
     static void Main()
     {
         string json = "{ \"forum_category\": { \"name\":\"How to\", \"description\":\"Getting Started\" }}";
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/discussions.json"); 
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/discussions/categories.json"); 
         //HttpWebRequest class is used to Make a request to a Uniform Resource Identifier (URI).  
         request.ContentType = "application/json"; 
         // Set the ContentType property of the WebRequest. 

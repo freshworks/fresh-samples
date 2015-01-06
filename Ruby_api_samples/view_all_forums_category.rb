@@ -4,7 +4,7 @@ require "rubygems"
 require "rest_client"
 require "json"
 
-site = RestClient::Resource.new("http://domain.freshdesk.com/categories.json","sample@freshdesk.com","test")
+site = RestClient::Resource.new("http://domain.freshdesk.com/discussions/categories.json","sample@freshdesk.com","test")
 
 response=site.get(:accept=>"application/json")
 
