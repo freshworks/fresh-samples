@@ -25,7 +25,8 @@ print json.dumps(payload)
 r = requests.post(FRESHDESK_ENDPOINT + '/helpdesk/tickets.json',
         auth=(FRESHDESK_KEY, "X"),
         headers=headers,
-        data=json.dumps(payload))
+        data=json.dumps(payload),
+        allow_redirects=False)
 
 print 'HTTP response code: ' + str(r.status_code)
 o = json.loads(r.content)
