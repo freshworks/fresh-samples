@@ -16,9 +16,10 @@ namespace FreshdeskTest
             o.Write(crLf, 0, crLf.Length);
         }
         
-        private static void writeBoundaryBytes(Stream o, string b)
+        private static void writeBoundaryBytes(Stream o, string b, bool isFinalBoundary)
         {
-            byte[] d = Encoding.ASCII.GetBytes("--" + b + "\r\n");
+            string boundary = isFinalBoundary == true ? "--" + b + "--" : "--" + b + "\r\n";
+            byte[] d = Encoding.ASCII.GetBytes(boundary);
             o.Write(d, 0, d.Length);
         }
         
@@ -69,19 +70,19 @@ namespace FreshdeskTest
             using (var rs = wr.GetRequestStream())
             {
                 // Note Content:
-                writeBoundaryBytes(rs, boundary);
+                writeBoundaryBytes(rs, boundary, false);
                 writeContentDispositionFormDataHeader(rs, "helpdesk_note[body]");
                 writeString(rs, "Note content");
                 writeCRLF(rs);
                 
                 // private or public note:
-                writeBoundaryBytes(rs, boundary);
-                writeContentDispositionFormDataHeader(rs, "helpdesk_ticket[private]");
+                writeBoundaryBytes(rs, boundary, false);
+                writeContentDispositionFormDataHeader(rs, "helpdesk_note[private]");
                 writeString(rs, "false");
                 writeCRLF(rs);
                 
                 // Attachment:
-                writeBoundaryBytes(rs, boundary);
+                writeBoundaryBytes(rs, boundary, false);
                 writeContentDispositionFileHeader(rs, "helpdesk_note[attachments][][resource]", "myfile.txt", "text/plain");
                 FileStream fs = new FileStream("myfile.txt", FileMode.Open, FileAccess.Read);
                 byte[] data = new byte[fs.Length];
@@ -90,8 +91,9 @@ namespace FreshdeskTest
                 rs.Write(data, 0, data.Length);
                 writeCRLF(rs);
                 
+                
                 // End marker:
-                writeBoundaryBytes(rs, boundary);
+                writeBoundaryBytes(rs, boundary, true);
                 
                 rs.Close();
             }
