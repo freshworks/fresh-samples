@@ -7,24 +7,24 @@ class Program
 {
     static void Main()
     {
-        // Example :   HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/helpdesk/tickets/1/assign.json?responder_id=34"); 
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/helpdesk/tickets/1/assign.json?responder_id=[user_id]"); 
+        //HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/contacts/1/make_agent.json"); 
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://googlehelper.freshdesk.com/contacts/[id]/make_agent.json"); 
         //HttpWebRequest class is used to Make a request to a Uniform Resource Identifier (URI).  
         request.ContentType = "application/json"; 
-        // Set the ContentType property of the WebRequest. 
+       // Set the ContentType property of the WebRequest. 
         request.Method = "PUT"; 
-        
-        string authInfo = "Api_Key:X";
+         
+        string authInfo = "dmOra0rbCOgI3R9lPna:X";
         authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
         request.Headers["Authorization"] ="Basic "+authInfo;
 
         WebResponse response = request.GetResponse(); 
-        // Get the stream containing content returned by the server.
+       // Get the stream containing content returned by the server.
         //Send the request to the server by calling GetResponse. 
         Stream dataStream = response.GetResponseStream(); 
-        // Open the stream using a StreamReader for easy access. 
+       // Open the stream using a StreamReader for easy access. 
         StreamReader reader = new StreamReader(dataStream); 
-        // Read the content. 
+       // Read the content. 
         string Response = reader.ReadToEnd(); 
         //return the response 
         Console.Out.WriteLine(Response);
