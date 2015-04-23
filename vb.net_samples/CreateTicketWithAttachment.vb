@@ -4,16 +4,17 @@ Imports System.Text
 
 Namespace FreshdeskTest
 	Class CreateTicketWithAttachment
-		Private Const _APIKey As String = "Api_key"
-		Private Const _Url As String = "http://domain.freshdesk.com/helpdesk/tickets.json"
+		Private Const _APIKey As String = "dmOra0rbCOgI3R9lPna"
+		Private Const _Url As String = "http://googlehelper.freshdesk.com/helpdesk/tickets.json"
 		' verify if you have to use http or https for your account
 		Private Shared Sub writeCRLF(o As Stream)
 			Dim crLf As Byte() = Encoding.ASCII.GetBytes(vbCr & vbLf)
 			o.Write(crLf, 0, crLf.Length)
 		End Sub
 
-		Private Shared Sub writeBoundaryBytes(o As Stream, b As String)
-			Dim d As Byte() = Encoding.ASCII.GetBytes("--" & b & vbCr & vbLf)
+		Private Shared Sub writeBoundaryBytes(o As Stream, b As String, isFinalBoundary As Boolean)
+			Dim boundary As String = If(isFinalBoundary = True, "--" & b & "--", "--" & b & vbCr & vbLf)
+			Dim d As Byte() = Encoding.ASCII.GetBytes(boundary)
 			o.Write(d, 0, d.Length)
 		End Sub
 
@@ -59,27 +60,27 @@ Namespace FreshdeskTest
 			' Body:
 			Using rs As Stream = wr.GetRequestStream()
 				' Email:
-				writeBoundaryBytes(rs, boundary)
+				writeBoundaryBytes(rs, boundary, False)
 				writeContentDispositionFormDataHeader(rs, "helpdesk_ticket[email]")
 				writeString(rs, "example@example.com")
 				writeCRLF(rs)
 
 				' Subject:
-				writeBoundaryBytes(rs, boundary)
+				writeBoundaryBytes(rs, boundary, False)
 				writeContentDispositionFormDataHeader(rs, "helpdesk_ticket[subject]")
 				writeString(rs, "Ticket Title")
 				writeCRLF(rs)
 
 				' Description:
-				writeBoundaryBytes(rs, boundary)
+				writeBoundaryBytes(rs, boundary, False)
 				writeContentDispositionFormDataHeader(rs, "helpdesk_ticket[description]")
 				writeString(rs, "Ticket description.")
 				writeCRLF(rs)
 
 				' Attachment:
-				writeBoundaryBytes(rs, boundary)
-				writeContentDispositionFileHeader(rs, "helpdesk_ticket[attachments][][resource]", "x.txt", "text/plain")
-				Dim fs As New FileStream("x.txt", FileMode.Open, FileAccess.Read)
+				writeBoundaryBytes(rs, boundary, False)
+				writeContentDispositionFileHeader(rs, "helpdesk_ticket[attachments][][resource]", "data.txt", "text/plain")
+				Dim fs As New FileStream("/Users/user/Desktop/data.txt", FileMode.Open, FileAccess.Read)
 				Dim data As Byte() = New Byte(fs.Length - 1) {}
 				fs.Read(data, 0, data.Length)
 				fs.Close()
@@ -87,7 +88,7 @@ Namespace FreshdeskTest
 				writeCRLF(rs)
 
 				' End marker:
-				writeBoundaryBytes(rs, boundary)
+				writeBoundaryBytes(rs, boundary, True)
 
 				rs.Close()
 			End Using
