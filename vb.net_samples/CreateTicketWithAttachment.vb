@@ -4,8 +4,8 @@ Imports System.Text
 
 Namespace FreshdeskTest
 	Class CreateTicketWithAttachment
-		Private Const _APIKey As String = "dmOra0rbCOgI3R9lPna"
-		Private Const _Url As String = "http://googlehelper.freshdesk.com/helpdesk/tickets.json"
+		Private Const _APIKey As String = "APIKEY"
+		Private Const _Url As String = "http://domain.freshdesk.com/helpdesk/tickets.json"
 		' verify if you have to use http or https for your account
 		Private Shared Sub writeCRLF(o As Stream)
 			Dim crLf As Byte() = Encoding.ASCII.GetBytes(vbCr & vbLf)
@@ -79,8 +79,8 @@ Namespace FreshdeskTest
 
 				' Attachment:
 				writeBoundaryBytes(rs, boundary, False)
-				writeContentDispositionFileHeader(rs, "helpdesk_ticket[attachments][][resource]", "data.txt", "text/plain")
-				Dim fs As New FileStream("/Users/user/Desktop/data.txt", FileMode.Open, FileAccess.Read)
+				writeContentDispositionFileHeader(rs, "helpdesk_ticket[attachments][][resource]", "x.txt", "text/plain")
+				Dim fs As New FileStream("x.txt", FileMode.Open, FileAccess.Read)
 				Dim data As Byte() = New Byte(fs.Length - 1) {}
 				fs.Read(data, 0, data.Length)
 				fs.Close()
