@@ -11,6 +11,7 @@
 ### Ruby
 
 * [freshdesk-api](https://github.com/dvliman/freshdesk-api/) by [dvliman](https://github.com/dvliman).
+* [freshdesk_api](https://github.com/mamantoha/freshdesk_api_client_rb) by [mamantoha](https://github.com/mamantoha).
 
 ### Python
 
