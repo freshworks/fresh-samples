@@ -3,7 +3,7 @@ Imports System.Text
 Imports System.IO
 
 Class Program
-	Private Shared Sub Main()
+	Public Shared Sub Main()
 		Dim json As String = "{  ""helpdesk_ticket"" : {""priority"" : 1,""status"" : 2  },  ""helpdesk"" : {""tags"" : ""csv1,csv2""  }}"
 		' Example :   HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://domain.freshdesk.com/helpdesk/tickets/1.json"); 
 		Dim request As HttpWebRequest = DirectCast(WebRequest.Create("http://domain.freshdesk.com/helpdesk/tickets/[id].json"), HttpWebRequest)
