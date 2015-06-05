@@ -1,4 +1,5 @@
-// To make use of unirest module pls execute - npm install unirest , on the Terminal/Command Promt
+// Requires unirest module. To install:
+// npm install unirest
 
 var unirest = require('unirest');
 var fs = require('fs');
@@ -25,8 +26,8 @@ var headers = {
 unirest.post(URL)
   .headers(headers)
   .field(fields)
-  .attach('helpdesk_ticket[attachments][][resource]',fs.createReadStream("path_to_file/file1.ext")) 
-  .attach('helpdesk_ticket[attachments][][resource]', fs.createReadStream("path_to_file/file2.ext"))
+  .attach('helpdesk_ticket[attachments][][resource]', fs.createReadStream('/path/to/file1.ext'))
+  .attach('helpdesk_ticket[attachments][][resource]', fs.createReadStream('/path/to/file2.ext'))
   .end(function(response){
     console.log(response.body);
   });
