@@ -5,7 +5,7 @@ $FD_ENDPOINT = "http://YOUR_DOMAIN.freshdesk.com"; // verify if you are using ht
 
 $payload = array(
   'helpdesk_note[body]' => 'Note Content',
-  'helpdesk_ticket[private]' => 'false',
+  'helpdesk_note[private]' => 'false',
   // php5.4 & below: 'helpdesk_note[attachments][][resource]' =>  "@x.png"
   'helpdesk_note[attachments][][resource]' =>  curl_file_create("data/x.png", "image/png", "x.png")
 );
