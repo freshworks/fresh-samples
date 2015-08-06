@@ -16,7 +16,6 @@
 	$connection = curl_init();
 	curl_setopt($connection, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($connection, CURLOPT_HTTPHEADER, $header);
-	curl_setopt($connection, CURLOPT_FOLLOWLOCATION, true);
 	curl_setopt($connection, CURLOPT_HEADER, false);
 	curl_setopt($connection, CURLOPT_USERPWD, "sample@freshdesk.com:test");
 
