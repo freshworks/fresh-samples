@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(
+      function() {
+        $.ajax(
+          {
+            url: "https://yourdomain.freshdesk.com/helpdesk/tickets.json",
+            type: 'GET',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+              "Authorization": "Basic " + btoa('API_KEY' + ":" + 'X')
+              // Example, "Authorization": "Basic " + btoa('sample@sample.com' + ":" + '123*')
+            },
+            success: function(data, textStatus) {
+              alert(textStatus);
+            },
+            error: function(jqXHR, tranStatus) {
+              alert(jqXHR.status);
+            }
+          }
+        );
+      }
+    );
+});
+</script>
+</head>
+<body>
+
+<button>Read</button>
+
+</body>
+</html>
