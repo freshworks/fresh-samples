@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(
+      function() {
+        ticket_data = '{ "helpdesk_ticket" : { "subject" : "final subject", "custom_field" : { "sample_field_1" : "111" } } }';
+        $.ajax(
+          {     
+            url: "https://yourdomain.freshdesk.com/helpdesk/tickets/15.json",
+            type: 'PUT',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+              "Authorization": "Basic " + btoa('API_KEY' + ":" + 'X')
+              // Example, "Authorization": "Basic " + btoa('jhfbdjhfbwie6623h' + ":" + 'X')
+            },
+            data: ticket_data,
+            success: function(data, textStatus) {
+              alert(textStatus);
+            },
+            error: function(jqXHR, tranStatus) {
+              alert(jqXHR.status);
+            }
+          }
+        );
+      }
+    );
+});
+</script>
+</head>
+<body>
+
+<button>Update ticket</button>
+
+</body>
+</html>
