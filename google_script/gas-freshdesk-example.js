@@ -52,7 +52,8 @@ function gasFreshdeskExample() {
   // This is my test account, don't worry about it. ;]
   var FRESHDESK_URL = 'https://mikebo.freshdesk.com' 
   // key for agent 'zixia@zixia.net' at 'https://mikebo.freshdesk.com'
-  var FRESHDESK_KEY = 'Jrg0FQNzX3tzuHbiFjYQ'         
+  var FRESHDESK_KEY = PropertiesService.getScriptProperties().getProperty('FreshDeskApiToken')
+
 
   var MyFreshdesk = new Freshdesk(FRESHDESK_URL, FRESHDESK_KEY)
 
