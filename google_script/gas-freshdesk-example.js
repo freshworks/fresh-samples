@@ -10,7 +10,8 @@
 *
 * Example:
 ```javascript
-var MyFreshdesk = new Freshdesk('https://mikebo.freshdesk.com', 'Jrg0FQNzX3tzuHbiFjYQ')
+var FRESHDESK_KEY = PropertiesService.getScriptProperties().getProperty('FreshDeskApiToken')
+var MyFreshdesk = new Freshdesk('https://mikebo.freshdesk.com', FRESHDESK_KEY)
 
 var ticket = new MyFreshdesk.Ticket({
   helpdesk_ticket: {
