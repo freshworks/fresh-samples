@@ -7,8 +7,10 @@ namespace FreshdeskTest
 {
     class CreateTicketWithAttachment
     {
+
+        private const string fdDomain = "domain.freshdesk.com";
         private const string _APIKey = "YOUR_API_KEY";
-        private const string _Url = "http://YOUR_DOMAIN.freshdesk.com/helpdesk/tickets.json"; // verify if you have to use http or https for your account
+        private const string _Url = "http://"+ fdDomain +"/api/v2/tickets"; 
         
         private static void writeCRLF(Stream o)
         {
@@ -62,7 +64,7 @@ namespace FreshdeskTest
             wr.KeepAlive = true;
             
             // Basic auth:
-            string login = _APIKey + ":X";
+            string login = apiKey + ":X"; // It could be your username:password also.
             string credentials = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(login));
             wr.Headers[HttpRequestHeader.Authorization] = "Basic " + credentials;
             
@@ -71,25 +73,37 @@ namespace FreshdeskTest
             {
                 // Email:
                 writeBoundaryBytes(rs, boundary, false);
-                writeContentDispositionFormDataHeader(rs, "helpdesk_ticket[email]");
+                writeContentDispositionFormDataHeader(rs, "email");
                 writeString(rs, "example@example.com");
                 writeCRLF(rs);
                 
                 // Subject:
                 writeBoundaryBytes(rs, boundary, false);
-                writeContentDispositionFormDataHeader(rs, "helpdesk_ticket[subject]");
+                writeContentDispositionFormDataHeader(rs, "subject");
                 writeString(rs, "Ticket Title");
                 writeCRLF(rs);
                 
                 // Description:
                 writeBoundaryBytes(rs, boundary, false);
-                writeContentDispositionFormDataHeader(rs, "helpdesk_ticket[description]");
+                writeContentDispositionFormDataHeader(rs, "description");
                 writeString(rs, "Ticket description.");
+                writeCRLF(rs);
+
+                // Status:
+                writeBoundaryBytes(rs, boundary, false);
+                writeContentDispositionFormDataHeader(rs, "status");
+                writeString(rs, 2);
+                writeCRLF(rs);
+
+                // Priority:
+                writeBoundaryBytes(rs, boundary, false);
+                writeContentDispositionFormDataHeader(rs, "priority");
+                writeString(rs, 2);
                 writeCRLF(rs);
                 
                 // Attachment:
                 writeBoundaryBytes(rs, boundary, false);
-                writeContentDispositionFileHeader(rs, "helpdesk_ticket[attachments][][resource]", "x.txt", "text/plain");
+                writeContentDispositionFileHeader(rs, "attachments[]", "x.txt", "text/plain");
                 FileStream fs = new FileStream("x.txt", FileMode.Open, FileAccess.Read);
                 byte[] data = new byte[fs.Length];
                 fs.Read(data, 0, data.Length);
@@ -107,20 +121,32 @@ namespace FreshdeskTest
             try
             {
                 Console.WriteLine("Submitting Request");
-                var response = (HttpWebResponse)wr.GetResponse();
-                Stream resStream = response.GetResponseStream();
-                string resJson = new StreamReader(resStream, Encoding.ASCII).ReadToEnd();
-                Console.WriteLine(resJson);
+                WebResponse response = request.GetResponse(); 
+                // Get the stream containing content returned by the server.
+                //Send the request to the server by calling GetResponse. 
+                dataStream = response.GetResponseStream(); 
+                // Open the stream using a StreamReader for easy access. 
+                StreamReader reader = new StreamReader(dataStream); 
+                // Read the content. 
+                string Response = reader.ReadToEnd(); 
+                //return the response 
+                Console.Out.WriteLine(Response);
             }
-            catch(Exception ex)
+            catch (WebException ex)
+            {
+                Console.WriteLine("Error Headers: {0}", ex.Response.Headers);
+                Console.WriteLine("Error Status Code : {1} {0}", ((HttpWebResponse)ex.Response).StatusCode, (int)((HttpWebResponse)ex.Response).StatusCode);
+                using (var stream = ex.Response.GetResponseStream())
+                using (var reader = new StreamReader(stream))
+                {   
+                    Console.Write("Error Response: ");
+                    Console.WriteLine(reader.ReadToEnd());
+                }
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine("ERROR");
                 Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                Console.WriteLine(Environment.NewLine);
-                Console.WriteLine(Environment.NewLine);
             }
 
         }

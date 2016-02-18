@@ -1,4 +1,4 @@
-#Filter ticket by requester id and email
+#Filter ticket by company id and name
 
 require "rubygems"
 require "rest_client"
@@ -10,12 +10,8 @@ api_key_or_user_name = "sample@freshdesk.com"
 
 password_or_x = "test"
 
-#filter can be of type (new_my_open, watching, spam, deleted)
-
-# sample with requester_id
-# site=RestClient::Resource.new("https://company.domain.com/api/v2/tickets?requester_id=8888594&filter=new_and_my_open","#{api_key_or_user_name}","password")
-
-site=RestClient::Resource.new("https://#{fd_domain}/ap/v2/tickets?email=test@test.com&filter=new_and_my_open","#{api_key_or_user_name}","#{password_or_x}")
+#filter types:new_my_open, watching, spam, deleted
+site = RestClient::Resource.new("https://#{fd_domain}/api/v2/tickets?company_id=1&filter=new_and_my_open","#{api_key_or_user_name}","#{password_or_x}")
 
 begin
   response = site.get(:accept=>"application/json")

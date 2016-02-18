@@ -4,14 +4,25 @@ require "rubygems"
 require "rest_client"
 require "json"
 
-ticket_id = 56
+fd_domain = "domain.freshdesk.com"
+
+api_key_or_user_name = "sample@freshdesk.com"
+
+password_or_x = "test"
+
+ticket_id = 776
+
+#'Status' property values can be found @ http://developer.freshdesk.com/api/tickets
+#custom field name passed to api is not the one displayed on portal, the actual name can be 
+#found by going to https://yourcompany.domain.com/api/v2/ticket_fields
+json_payload = {:custom_fields=>{:license=>"AMD-123"}}.to_json
 
 #you can also use apikey instead of user/passwd
-site = RestClient::Resource.new("http://domain.freshdesk.com/helpdesk/tickets/#{ticket_id}.json","sample@freshdesk.com","test")
+site = RestClient::Resource.new("https://#{fd_domain}/api/v2/tickets/#{ticket_id}","#{api_key_or_user_name}","#{password_or_x}")
 
-#'Status' property values can be found @ http://freshdesk.com/api/tickets
-#custom field name passed to api is not the one displayed on portal, the actual name stored in db can be 
-#found by going to http://yourcompany.domain.com/ticket_fields.xml.
-response = site.put({:helpdesk_ticket=>{:status=>3,:custom_field=>{:license_1234=>"AMD-123"}},:content_type=>"application/json"})
-
-puts "response: #{response.code} \n #{response.body}"
+begin
+  response = site.put(json_payload, :content_type=>"application/json")
+  puts "response_code: #{response.code} \nresponse_body: #{response.body} \n"
+rescue => exception
+  puts "response_code: #{exception.response.code} \nresponse_headers: #{exception.response.headers} \nresponse_body: #{exception.response.body} \n"
+end
