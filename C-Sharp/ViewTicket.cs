@@ -7,10 +7,11 @@ class Program
 {
     static void Main()
     {
-      string fdDomain = "domain.freshdesk.com";
-      string apiKey = "YOUR_API_KEY"
-      string test = String.Empty;
-      HttpWebRequest request =(HttpWebRequest)WebRequest.Create("https://" + fdDomain + "/api/v2/tickets/1");  
+      string fdDomain = "YOUR_DOMAIN"; // your freshdesk domain
+      string apiKey = "YOUR_API_KEY";
+      string apiPath = "/api/v2/tickets/1"; // API path
+      string responseBody = String.Empty;
+      HttpWebRequest request =(HttpWebRequest)WebRequest.Create("https://" + fdDomain + ".freshdesk.com" + apiPath);  
       request.ContentType = "application/json"; 
       request.Method = "GET"; 
       string authInfo = apiKey + ":X"; // It could be your username:password also.
@@ -23,15 +24,18 @@ class Program
           {
             Stream dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataStream);
-            test = reader.ReadToEnd();
+            responseBody = reader.ReadToEnd();
             reader.Close();
             dataStream.Close();
+            //return status code
+            Console.WriteLine("Status Code: {1} {0}", ((HttpWebResponse)response).StatusCode, (int)((HttpWebResponse)response).StatusCode);
           }  
-          Console.Out.WriteLine(test);
+          Console.Out.WriteLine(responseBody);
       }
       catch (WebException ex)
       {
-          Console.WriteLine("Error Headers: {0}", ex.Response.Headers);
+          Console.WriteLine("API Error: Your request is not successful. If you are not able to debug this error properly, mail us at support@freshdesk.com with the follwing X-Request-Id");
+          Console.WriteLine("X-Request-Id: {0}", ex.Response.Headers["X-Request-Id"]);
           Console.WriteLine("Error Status Code : {1} {0}", ((HttpWebResponse)ex.Response).StatusCode, (int)((HttpWebResponse)ex.Response).StatusCode);
           using (var stream = ex.Response.GetResponseStream())
           using (var reader = new StreamReader(stream))
