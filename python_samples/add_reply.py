@@ -8,15 +8,21 @@ api_key = "YOUR_API_KEY"
 domain = "YOUR_DOMAIN"
 password = "x"
 
-# Id of the ticket to be updated
+# id of the ticket to add a note
 ticket_id = 'TICKET_ID'
 
-r = requests.get("https://"+ domain +".freshdesk.com/api/v2/tickets/"+ticket_id, auth = (api_key, password))
+headers = { 'Content-Type' : 'application/json' }
 
-if r.status_code == 200:
-  print "Request processed successfully, the response is given below" + r.content
+note = {
+    'body' : 'Sample reply'
+}
+
+r = requests.post("https://"+ domain +".freshdesk.com/api/v2/tickets/"+ticket_id+"/reply", auth = (api_key, password), headers = headers, data = json.dumps(note))
+
+if r.status_code == 201:
+  print "Reply added successfully, the response is given below" + r.content
 else:
-  print "Failed to read ticket, errors are displayed below,"
+  print "Failed to add reply, errors are displayed below,"
   response = json.loads(r.content)
   errors = response["errors"]
   for error in errors:
