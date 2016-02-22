@@ -4,18 +4,25 @@
 import requests
 import json
 
-FRESHDESK_ENDPOINT = "http://YOUR_DOMAIN.freshdesk.com" # check if you have configured https, modify accordingly
-FRESHDESK_KEY = "YOUR_API_TOKEN"
+api_key = "YOUR_API_KEY"
+domain = "YOUR_DOMAIN"
+password = "x"
 
-user_info = {"user":{"name":"Sample User", "job_title":"Super Hero"}}
-my_headers = {"Content-Type": "application/json"}
+# Id of the contact to be updated
+contact_id = 'CONTACT_ID'
 
-#Example : url = FRESHDESK_ENDPOINT + '/contacts/2.json' 
-url = FRESHDESK_ENDPOINT + '/contacts/[id].json' 
+contact_info = { "job_title" : "Super Hero" }
+headers = { "Content-Type" : "application/json" }
 
-r = requests.post(url,
-        auth=(FRESHDESK_KEY, "X"), data=json.dumps(user_info),
-        headers=my_headers)
+r = requests.put("https://"+ domain +".freshdesk.com/api/v2/contacts/"+contact_id, auth = (api_key, password), data = json.dumps(contact_info), headers = headers)
 
-print r.status_code
-print r.content
+if r.status_code == 200:
+  print "Contact updated successfully, the response is given below" + r.content
+else:
+  print "Failed to update contact, errors are displayed below,"
+  response = json.loads(r.content)
+  errors = response["errors"]
+  for error in errors:
+      print "Field : " + error["field"] + " |  Message : " + error["message"] + " | Code : " + error["code"]
+
+  print "x-request-id : " + r.headers['x-request-id']

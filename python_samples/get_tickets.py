@@ -1,19 +1,23 @@
 ## This script requires "requests": http://docs.python-requests.org/
 ## To install: pip install requests
 
-import json
 import requests
-import base64
+import json
 
-FRESHDESK_ENDPOINT = "https://domain.freshdesk.com" # check if you have configured https, modify accordingly
-FRESHDESK_KEY = "API_KEY"
+api_key = "YOUR_API_KEY"
+domain = "YOUR_DOMAIN"
+password = "x"
 
-base64string = base64.encodestring('%s:%s' % (FRESHDESK_KEY, "X"))
-auth = "Basic %s" % base64string
-headers = {'Authorization': auth}
+r = requests.get("https://"+ domain +".freshdesk.com/api/v2/tickets", auth = (api_key, password))
 
-r = requests.get(FRESHDESK_ENDPOINT + '/helpdesk/tickets.json', headers = headers)
+if r.status_code == 200:
+  print "Request processed successfully, the response is given below"
+  print r.content
+else:
+  print "Failed to read tickets, errors are displayed below,"
+  response = json.loads(r.content)
+  errors = response["errors"]
+  for error in errors:
+      print "Field : " + error["field"] + " |  Message : " + error["message"] + " | Code : " + error["code"]
 
-print 'HTTP response code: ' + str(r.status_code)
-print 'HTTP response body: ' + str(r.content)
-
+  print "x-request-id : " + r.headers['x-request-id']

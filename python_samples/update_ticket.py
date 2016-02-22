@@ -1,29 +1,33 @@
 ## This script requires "requests": http://docs.python-requests.org/
 ## To install: pip install requests
 
-import json
 import requests
+import json
 
-FRESHDESK_ENDPOINT = "https://DOMAIN.freshdesk.com" # check if you have configured https, modify accordingly
-FRESHDESK_KEY = "FRESHDESK_API_KEY"
+api_key = "YOUR_API_KEY"
+domain = "YOUR_DOMAIN"
+password = "x"
 
-headers = {'Content-Type': 'application/json'}
+# Id of the ticket to be updated
+ticket_id = 'TICKET_ID'
 
-payload = {
-    'helpdesk_ticket': {
-        'status': 5
-    }
+headers = { 'Content-Type' : 'application/json' }
+
+ticket = {
+  'subject' : 'Updated Title',
+  'description' : 'Updated description',
+  'priority' : 3,
 }
 
-print json.dumps(payload)
+r = requests.put("https://"+ domain +".freshdesk.com/api/v2/tickets/"+ticket_id, auth = (api_key, password), headers = headers, data = json.dumps(ticket))
 
-#Example : url = FRESHDESK_ENDPOINT + '/helpdesk/tickets/2.json' 
-url = FRESHDESK_ENDPOINT + '/helpdesk/tickets/[ticket_id].json' 
+if r.status_code == 200:
+  print "Ticket updated successfully, the response is given below" + r.content
+else:
+  print "Failed to update ticket, errors are displayed below,"
+  response = json.loads(r.content)
+  errors = response["errors"]
+  for error in errors:
+      print "Field : " + error["field"] + " |  Message : " + error["message"] + " | Code : " + error["code"]
 
-r = requests.put(url,
-        auth=(FRESHDESK_KEY, "X"),
-        headers=headers,
-        data=json.dumps(payload),
-        allow_redirects=False)
-
-print 'HTTP response code: ' + str(r.status_code)
+  print "x-request-id : " + r.headers['x-request-id']

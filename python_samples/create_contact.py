@@ -4,15 +4,22 @@
 import requests
 import json
 
-FRESHDESK_ENDPOINT = "http://YOUR_DOMAIN.freshdesk.com" # check if you have configured https, modify accordingly
-FRESHDESK_KEY = "YOUR_API_TOKEN"
+api_key = "YOUR_API_KEY"
+domain = "YOUR_DOMAIN"
+password = "x"
 
-user_info = {"user":{"name":"Example User", "email":"example@example.com"}}
-my_headers = {"Content-Type": "application/json"}
+contact_info = { "name" : "Example User", "email" : "api_v2_user_02@example.com" }
+headers = { "Content-Type" : "application/json" }
 
-r = requests.post(FRESHDESK_ENDPOINT + '/contacts.json',
-        auth=(FRESHDESK_KEY, "X"), data=json.dumps(user_info),
-        headers=my_headers)
+r = requests.post("https://"+ domain +".freshdesk.com/api/v2/contacts", auth = (api_key, password), data = json.dumps(contact_info), headers = headers)
 
-print r.status_code
-print r.content
+if r.status_code == 201:
+  print "Contact created successfully, the response is given below" + r.content
+else:
+  print "Failed to create contact, errors are displayed below,"
+  response = json.loads(r.content)
+  errors = response["errors"]
+  for error in errors:
+      print "Field : " + error["field"] + " |  Message : " + error["message"] + " | Code : " + error["code"]
+
+  print "x-request-id : " + r.headers['x-request-id']

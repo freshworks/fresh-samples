@@ -2,20 +2,34 @@
 ## To install: pip install requests
 
 import requests
+import json
 
-FRESHDESK_ENDPOINT = "http://YOUR_DOMAIN.freshdesk.com" # check if you have configured https, modify accordingly
-FRESHDESK_KEY = "YOUR_API_KEY"
+api_key = "YOUR_API_KEY"
+domain = "YOUR_DOMAIN"
+password = "x"
+
 
 multipart_data = [
-    ('helpdesk_ticket[email]', ('','example@example.com')),
-    ('helpdesk_ticket[subject]', ('', 'Ticket Title')),
-    ('helpdesk_ticket[description]', ('', 'Ticket description.')),
-    ('helpdesk_ticket[attachments][][resource]', ('create_ticket_attachment.py', open('create_ticket_attachment.py', 'rb'), 'text/plain')),
-    ('helpdesk_ticket[attachments][][resource]', ('logo.png', open('logo.png', 'rb'), 'image/png'))
+    ('email', ('','example@example.com')),
+    ('subject', ('', 'Ticket Title')),
+    ('status', ('', '2')),
+    ('priority', ('', '2')),
+    ('cc_emails[]', ('', 'sample_email@domain.com')),
+    ('cc_emails[]', ('', 'user_email@domain.com')),
+    ('attachments[]', ('logo.png', open('logo.png', 'rb'), 'image/png')),
+    ('attachments[]', ('create_ticket_attachment.py', open('create_ticket_attachment.py', 'rb'), 'text/plain')),
+    ('description', ('', 'Ticket description.'))
 ]
-r = requests.post(FRESHDESK_ENDPOINT + '/helpdesk/tickets.json',
-        auth=(FRESHDESK_KEY, "X"),
-        files=multipart_data)
 
-print r.status_code
-print r.content
+r = requests.post("https://"+ domain +".freshdesk.com/api/v2/tickets", auth = (api_key, password), files = multipart_data)
+
+if r.status_code == 201:
+  print "Ticket created successfully, the response is given below" + r.content
+else:
+  print "Failed to create ticket, errors are displayed below,"
+  response = json.loads(r.content)
+  errors = response["errors"]
+  for error in errors:
+      print "Field : " + error["field"] + " |  Message : " + error["message"] + " | Code : " + error["code"]
+
+  print "x-request-id : " + r.headers['x-request-id']
