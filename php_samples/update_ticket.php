@@ -1,31 +1,63 @@
-<?php
-$fd_domain = "https://YOURDOMAIN.freshdesk.com";
-$token = "YOUR_FRESHDESK_API_TOKEN";
-$password = "X";
+<?php 
 
-$custom_field = array(
-          "weapon_1" => "Laser Gun" );
+$api_key = "API_KEY";
+$password = "x";
+$yourdomain = "YOUR_DOMAIN";
 
-$data = array(
-    "helpdesk_ticket" => array(
-        "priority" => 4,
-        "status" => 3,
-        "custom_field" => $custom_field
-    )
+$custom_fields = array(
+  "department" => "Production"
 );
 
-$json_body = json_encode($data, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
+$ticket_data = json_encode(array(
+  "priority" => 3,
+  "status" => 4,
+  "description" => "Need support for the issue",
+  "custom_fields" => $custom_fields
+));
+
+// Id of the ticket to be updated
+$ticket_id = 44;
+
+$url = "https://$yourdomain.freshdesk.com/api/v2/tickets/$ticket_id";
+
+$ch = curl_init($url);
 
 $header[] = "Content-type: application/json";
-$connection = curl_init("$fd_domain/helpdesk/tickets/[ticket_id].json");
-curl_setopt($connection, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($connection, CURLOPT_HTTPHEADER, $header);
-curl_setopt($connection, CURLOPT_HEADER, false);
-curl_setopt($connection, CURLOPT_USERPWD, "$token:$password");
-curl_setopt($connection, CURLOPT_POSTFIELDS, $json_body);
-curl_setopt($connection, CURLOPT_CUSTOMREQUEST, 'PUT');
-curl_setopt($connection, CURLOPT_VERBOSE, 1);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+curl_setopt($ch, CURLOPT_HEADER, true);
+curl_setopt($ch, CURLOPT_USERPWD, "$api_key:$password");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $ticket_data);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-$response = curl_exec($connection);
-echo $response;
+$server_output = curl_exec($ch);
+$info = curl_getinfo($ch);
+$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+$headers = substr($server_output, 0, $header_size);
+$response = substr($server_output, $header_size);
+
+
+if($info['http_code'] == 200) {
+  echo "Ticket updated successfully, the response is given below \n";
+  echo "Response Headers are \n";
+  echo $headers."\n";
+  echo "Response Body \n";
+  echo "$response \n";
+} else {
+
+  if($info['http_code'] == 404) {
+    echo "Error, Please check the end point \n";
+  } else {
+    echo "Error, HTTP Status Code : " . $info['http_code'] . "\n";
+    echo "Headers are ".$headers;
+    $response_data = json_decode($response);
+
+    foreach ($response_data->{'errors'} as $error) {
+        echo "Field : ".$error->{'field'} . " | Message : ".$error->{'message'} . " | Code : ".$error->{'code'} ."\n";
+    }  
+  }
+}
+
+curl_close($ch);
+
 ?>

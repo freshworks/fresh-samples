@@ -1,29 +1,56 @@
- 
-<?php
+<?php 
 
-    $email="user@company.com";//username or apiKey
-    $password="test";//pwd or X
-    $domain = "http://domain.freshdesk.com";
+$api_key = "API_KEY";
+$password = "x";
+$yourdomain = "YOUR_DOMAIN";
 
-    $header[] = "Content-type: application/json";
-    $data = array(
-        		 "user" => array("tags"=>"tags1", "job_title"=>"Super man")
-        	);
-        
-    $json_body = json_encode($data);
-    $header[] = "Content-type: application/json";
-    $connection = curl_init();
-    curl_setopt($connection, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($connection, CURLOPT_HTTPHEADER, $header);   
-    curl_setopt($connection, CURLOPT_HEADER, false);
-    curl_setopt($connection, CURLOPT_USERPWD, "$email:$password");
-    curl_setopt($connection, CURLOPT_POSTFIELDS, $json_body);
-    curl_setopt($connection, CURLOPT_CUSTOMREQUEST, 'PUT');
-    curl_setopt($connection, CURLOPT_VERBOSE, 1);
-    curl_setopt($connection, CURLOPT_URL, $domain."/contacts/1.json");
-    $response = curl_exec($connection);
-    curl_close($connection); 
-        
-    echo $response;
+$contact_data = json_encode(array(
+  "job_title" => "Super user",
+  "name" => "New name"
+));
 
-?>    
+// Id of the contact to be updated
+$contact_id = 6005608974;
+
+$url = "https://$yourdomain.freshdesk.com/api/v2/contacts/$contact_id";
+
+$ch = curl_init($url);
+
+$header[] = "Content-type: application/json";
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+curl_setopt($ch, CURLOPT_HEADER, true);
+curl_setopt($ch, CURLOPT_USERPWD, "$api_key:$password");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $contact_data);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$server_output = curl_exec($ch);
+$info = curl_getinfo($ch);
+$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+$headers = substr($server_output, 0, $header_size);
+$response = substr($server_output, $header_size);
+
+if($info['http_code'] == 200) {
+  echo "Contact updated successfully, the response is given below \n";
+  echo "Response Headers are \n";
+  echo $headers."\n";
+  echo "Response Body \n";
+  echo "$response \n";
+} else {
+
+  if($info['http_code'] == 404) {
+    echo "Error, Please check the end point \n";
+  } else {
+    echo "Error, HTTP Status Code : " . $info['http_code'] . "\n";
+    echo "Headers are ".$headers;
+    $response_data = json_decode($response);
+
+    foreach ($response_data->{'errors'} as $error) {
+        echo "Field : ".$error->{'field'} . " | Message : ".$error->{'message'} . " | Code : ".$error->{'code'} ."\n";
+    }  
+  }
+}
+
+curl_close($ch);
+
+?>

@@ -1,37 +1,53 @@
-<?php 
+<?php
 
-$API_KEY = "YOUR_API_KEY";
-$FD_ENDPOINT = "http://YOUR_DOMAIN.freshdesk.com"; // verify if you are using https, and change accordingly!
+$api_key = "API_KEY";
+$password = "x";
+$yourdomain = "YOUR_DOMAIN";
 
-$payload = array(
-  'helpdesk_ticket[email]' => 'test@example.com',
-  'helpdesk_ticket[subject]' => 'test',
-  'helpdesk_ticket[description]' => 'testing description content',
-  // php5.4 & below: 'helpdesk_ticket[attachments][][resource]' =>  "@data/x.png"
-  'helpdesk_ticket[attachments][][resource]' =>  curl_file_create("data/x.png", "image/png", "x.png")
+$ticket_payload = array(
+  'email' => 'test@example.com',
+  'subject' => 'test',
+  'description' => 'testing description content',
+  'priority' => 2,
+  'status' => 2,
+  'attachments[]' =>  curl_file_create("data/x.png", "image/png", "x.png")
 );
-$header[] = "Content-type: multipart/form-data";
 
-$url = "$FD_ENDPOINT/helpdesk/tickets.json";
+$url = "https://$yourdomain.freshdesk.com/api/v2/tickets";
 
 $ch = curl_init($url);
 
 curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-
-curl_setopt($ch, CURLOPT_USERPWD, "$API_KEY:X");
-curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-curl_setopt($ch, CURLOPT_HEADER, false);
-
+curl_setopt($ch, CURLOPT_HEADER, true);
+curl_setopt($ch, CURLOPT_USERPWD, "$api_key:$password");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $ticket_payload);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-$server_output = curl_exec($ch);
 
-$response = json_decode($server_output);
-var_dump($response);
+$server_output = curl_exec($ch);
+$info = curl_getinfo($ch);
+$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+$headers = substr($server_output, 0, $header_size);
+$response = substr($server_output, $header_size);
+
+if($info['http_code'] == 201) {
+  echo "Ticket created successfully, the response is given below \n";
+  echo "Response Headers are \n";
+  echo $headers."\n";
+  echo "Response Body \n";
+  echo "$response \n";
+} else {
+  if($info['http_code'] == 404) {
+    echo "Error, Please check the end point \n";
+  } else {
+    echo "Error, HTTP Status Code : " . $info['http_code'] . "\n";
+    echo "Headers are ".$headers."\n";
+    $response_data = json_decode($response);
+    foreach ($response_data->{'errors'} as $error) {
+        echo "Field : ".$error->{'field'} . " | Message : ".$error->{'message'} . " | Code : ".$error->{'code'} ."\n";
+    }  
+  }
+
+}
 
 curl_close($ch);
-
 ?>
