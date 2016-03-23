@@ -4,19 +4,20 @@
 var unirest = require('unirest');
 var fs = require('fs');
 
-var PROTOCOL = "https://";
 var API_KEY = "YOUR_API_KEY";
-var FD_ENDPOINT = "YOUR_DOMAIN.freshdesk.com";
+var FD_ENDPOINT = "YOUR_DOMAIN";
 
-var PATH = "/helpdesk/tickets.json";
+var PATH = "/api/v2/tickets";
 var enocoding_method = "base64";
 var auth = "Basic " + new Buffer(API_KEY + ":" + 'X').toString(enocoding_method);
-var URL = PROTOCOL + FD_ENDPOINT + PATH;
+var URL =  "https://" + FD_ENDPOINT + ".freshdesk.com"+ PATH;
 
 var fields = {
-  'helpdesk_ticket[email]': 'example@example.com',
-  'helpdesk_ticket[subject]': 'Ticket subject',
-  'helpdesk_ticket[description]': 'Ticket description.'
+  'email': 'email@yourdomain.com',
+  'subject': 'Ticket subject',
+  'description': 'Ticket description.',
+  'status': 2,
+  'priority': 1
 }
 
 var headers = {
@@ -26,8 +27,15 @@ var headers = {
 unirest.post(URL)
   .headers(headers)
   .field(fields)
-  .attach('helpdesk_ticket[attachments][][resource]', fs.createReadStream('/path/to/file1.ext'))
-  .attach('helpdesk_ticket[attachments][][resource]', fs.createReadStream('/path/to/file2.ext'))
+  .attach('attachments[]', fs.createReadStream('/path/to/file1.ext'))
+  .attach('attachments[]', fs.createReadStream('/path/to/file2.ext'))
   .end(function(response){
-    console.log(response.body);
+    console.log(response.body)
+    console.log("Response Status : " + response.status)
+    if(response.status == 201){
+      console.log("Location Header : "+ response.headers['location'])
+    }
+    else{
+      console.log("X-Request-Id :" + response.headers['x-request-id']);
+    }
   });
