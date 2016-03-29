@@ -9,7 +9,7 @@ domain = "YOUR_DOMAIN"
 password = "x"
 
 # Id of the ticket to be updated
-ticket_id = 'TICKET_ID'
+ticket_id = '57'
 
 headers = { 'Content-Type' : 'application/json' }
 
@@ -26,8 +26,7 @@ if r.status_code == 200:
 else:
   print "Failed to update ticket, errors are displayed below,"
   response = json.loads(r.content)
-  errors = response["errors"]
-  for error in errors:
-      print "Field : " + error["field"] + " |  Message : " + error["message"] + " | Code : " + error["code"]
+  print response["errors"]
 
   print "x-request-id : " + r.headers['x-request-id']
+  print "Status Code : " + r.status_code

@@ -23,11 +23,11 @@ r = requests.post("https://"+ domain +".freshdesk.com/api/v2/tickets", auth = (a
 
 if r.status_code == 201:
   print "Ticket created successfully, the response is given below" + r.content
+  print "Location Header : " + r.headers['Location']
 else:
   print "Failed to create ticket, errors are displayed below,"
   response = json.loads(r.content)
-  errors = response["errors"]
-  for error in errors:
-      print "Field : " + error["field"] + " |  Message : " + error["message"] + " | Code : " + error["code"]
+  print response["errors"]
 
   print "x-request-id : " + r.headers['x-request-id']
+  print "Status Code : " + str(r.status_code)
