@@ -9,6 +9,8 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONObject;
+import org.json.JSONException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -30,10 +32,6 @@ import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 
-/**
- *
- * @author ganesh
- */
 public class CreateTicket {
     public int createTicket(String apiToken, String apiEndpoint) throws IOException, URISyntaxException {
         final HttpClientBuilder hcBuilder = HttpClientBuilder.create();
@@ -86,16 +84,27 @@ public class CreateTicket {
             sb.append(line);
         }
         int response_status = response.getStatusLine().getStatusCode();
+        String response_body = sb.toString();
+
         System.out.println("Response Status: "+ response_status);
         System.out.println("Body:\n");
-        System.out.println(sb.toString());
-        if(response_status == 201) {
-            System.out.println("\nLocation Header: " + response.getFirstHeader("location").getValue());
+        System.out.println(response_body);
+        if(response_status > 400) {
+            System.out.println("X-Request-Id: " + response.getFirstHeader("x-request-id").getValue());
         }
-        else{
-            System.out.println("\nX-Request-Id: " + response.getFirstHeader("x-request-id").getValue());
+        else if(response_status==201){ 
+            //For creation response_status is 201 where are as for other actions it is 200
+            try{
+                System.out.println("Ticket Creation Successfull");
+                //Creating JSONObject for the response string
+                JSONObject response_json = new JSONObject(sb.toString());
+                System.out.println("Ticket ID: " + response_json.get("id"));
+                System.out.println("Location : " + response.getFirstHeader("location").getValue());
+            }
+            catch(JSONException e){
+                System.out.println("Error in JSON Parsing\n :"+ e);
+            }
         }
-        
         return response_status;
     }
 }

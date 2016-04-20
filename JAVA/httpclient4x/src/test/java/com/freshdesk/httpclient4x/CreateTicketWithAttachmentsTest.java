@@ -3,10 +3,6 @@ package com.freshdesk.httpclient4x;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author ganesh
- */
 public class CreateTicketWithAttachmentsTest {
     
     /**
