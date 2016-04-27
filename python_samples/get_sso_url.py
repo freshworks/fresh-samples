@@ -8,7 +8,7 @@ def get_sso_url(email, name, base_url, key, redirect_url=None, phone=None, compa
     For more info look at https://goo.gl/NISgpr
     """
     utctime = int(time.time())
-    plaintext = "%s%s%s" % (name, email, utctime)
+    plaintext = "%s%s%s%s" % (name, key, email, utctime)
     hash = hmac.new(key.encode(), plaintext.encode(), hashlib.md5).hexdigest()
     url = '%s/login/sso?name=%s&email=%s&timestamp=%s&hash=%s' % (base_url, urllib.quote(name), urllib.quote(email), utctime, hash)
     if redirect_url:
