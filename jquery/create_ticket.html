@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(
+      function() {
+        var yourdomain = 'yourdomain'; // Your freshdesk domain name. Ex., yourcompany
+        var api_key = 'API_KEY'; // Ref: https://support.freshdesk.com/support/solutions/articles/215517-how-to-find-your-api-key
+
+        ticket_data = '{ "description": "Details about the issue...", "subject": "Support Needed...", "email": "tom@outerspace.com", "priority": 1, "status": 2, "cc_emails": ["ram@freshdesk.com","diana@freshdesk.com"] }';
+
+        $.ajax(
+          {
+            url: "https://"+yourdomain+".freshdesk.com/api/v2/tickets",
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+              "Authorization": "Basic " + btoa(api_key + ":x")
+            },
+            data: ticket_data,
+            success: function(data, textStatus, jqXHR) {
+              $('#result').text('Success');
+              $('#code').text(jqXHR.status);
+              $('#response').html(JSON.stringify(data, null, "<br/>"));
+            },
+            error: function(jqXHR, tranStatus) {
+              $('#result').text('Error');
+              $('#code').text(jqXHR.status);
+              x_request_id = jqXHR.getResponseHeader('X-Request-Id');
+              response_text = jqXHR.responseText;
+              $('#response').html(" Error Message : <b style='color: red'>"+response_text+"</b>.<br/> Your X-Request-Id is : <b>" + x_request_id + "</b>. Please contact support@freshdesk.com with this id for more information.");
+
+            }
+          }
+        );
+      }
+    );
+});
+</script>
+</head>
+<body>
+
+<button>Create ticket</button>
+<br/></br>
+<table cellspacing = '10'>
+  <tr>
+    <td> <b>Result</b></td>
+    <td> <div id = 'result'></div> </td>
+  </tr>
+  <tr>
+    <td> <b>Code</b></td>
+    <td> <div id = 'code'></div> </td>
+  </tr>
+  <tr>
+    <td> <b>Response</b></td>
+    <td> <div id = 'response'></div> </td>
+  </tr>
+</table>
+
+</body>
+</html>
