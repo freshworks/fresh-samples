@@ -34,7 +34,10 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 public class CreateTicket {
     public int createTicket(String apiToken, String apiEndpoint) throws IOException, URISyntaxException {
-        final HttpClientBuilder hcBuilder = HttpClientBuilder.create();
+        SSLContext ctx = SSLContext.getInstance("TLSv1.2"); 
+		ctx.init(null, null, null);
+		final HttpClientBuilder hcBuilder = HttpClientBuilder.create().setSslcontext(ctx);
+		
         final RequestBuilder reqBuilder = RequestBuilder.post();
         final RequestConfig.Builder rcBuilder = RequestConfig.custom();
         
