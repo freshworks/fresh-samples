@@ -7,8 +7,13 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.SSLContext;
+
 import org.json.JSONObject;
 import org.json.JSONException;
 import org.apache.http.HttpEntity;
@@ -33,9 +38,11 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 public class CreateTicketWithCustomFields {
-    public int createTicketWithCustomFields(String apiToken, String apiEndpoint) throws IOException, URISyntaxException {
-        final HttpClientBuilder hcBuilder = HttpClientBuilder.create();
-        final RequestBuilder reqBuilder = RequestBuilder.post();
+    public int createTicketWithCustomFields(String apiToken, String apiEndpoint) throws IOException, URISyntaxException, NoSuchAlgorithmException, KeyManagementException {
+    	SSLContext ctx = SSLContext.getInstance("TLSv1.2"); 
+		ctx.init(null, null, null);
+		final HttpClientBuilder hcBuilder = HttpClientBuilder.create().setSslcontext(ctx);            
+		final RequestBuilder reqBuilder = RequestBuilder.post();
         final RequestConfig.Builder rcBuilder = RequestConfig.custom();
         
         // URL object from API endpoint:
