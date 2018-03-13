@@ -4,21 +4,20 @@
 import requests
 import json
 
-api_key = "YOUR_API_KEY"
 domain = "YOUR_DOMAIN"
+api_key = "YOUR_API_KEY"
 password = "x"
 
 # Id of the ticket to be updated
 ticket_id = 'TICKET_ID'
 
-r = requests.get("https://"+ domain +".freshdesk.com/api/v2/tickets/"+ticket_id, auth = (api_key, password))
+r = requests.get("https://{0}.freshdesk.com/api/v2/tickets/{1}".format(domain, ticket_id), auth = (api_key, password))
 
 if r.status_code == 200:
-  print "Request processed successfully, the response is given below" + r.content
+  print ("Request processed successfully, the response is given below")
 else:
-  print "Failed to read ticket, errors are displayed below,"
-  response = json.loads(r.content)
-  print response["errors"]
+  print ("Failed to read ticket, errors are displayed below")
+response = json.loads(r.content)
 
-  print "x-request-id : " + r.headers['x-request-id']
-  print "Status Code : " + r.status_code
+t = r.json()
+print(r.json())
