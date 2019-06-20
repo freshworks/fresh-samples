@@ -64,8 +64,8 @@ export class AppComponent  {
 
   create (data: FormData) {
 
-    let yourdomain = 'userinterface'; // Your freshdesk domain name. Ex., yourcompany
-    let api_key = 'aZdE7lJKxwWj1N4KwghN'; // Ref: https://support.freshdesk.com/support/solutions/articles/215517-how-to-find-your-api-key
+    let yourdomain = 'mydomain'; // Your freshdesk domain name. Ex., yourcompany
+    let api_key = 'key'; // Ref: https://support.freshdesk.com/support/solutions/articles/215517-how-to-find-your-api-key
     let url = "https://"+yourdomain+".freshdesk.com/api/v2/tickets";
 
     let headers = new Headers({
