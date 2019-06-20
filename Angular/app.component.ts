@@ -40,7 +40,7 @@ export class AppComponent  {
 
     let formdata = new FormData();
     formdata.append('description', 'sample description');
-    formdata.append('email', 'ahamed.althaf@freshworks.com');
+    formdata.append('email', 'test@mydomain.com');
     formdata.append('subject', 'Test subject');
     formdata.append('priority', '2');
     formdata.append('status', '2');
