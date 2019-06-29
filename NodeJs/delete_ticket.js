@@ -22,7 +22,7 @@ Request.auth({
     }
     else{
       console.log(response.body);
-      console.log("Response Status : " response.status)
+      console.log("Response Status : " + response.status)
       console.log("X-Request-Id :" + response.headers['x-request-id']);
     }
 });
