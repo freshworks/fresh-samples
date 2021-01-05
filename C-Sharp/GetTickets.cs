@@ -9,7 +9,7 @@ class Program
     {
       string fdDomain = "YOUR_DOMAIN"; // your freshdesk domain
       string apiKey = "YOUR_API_KEY";
-      string apiPath = "/api/v2/tickets"; // API path
+      string apiPath = "/api/v2/tickets/1"; // API path
       string responseBody = String.Empty;
       HttpWebRequest request =(HttpWebRequest)WebRequest.Create("https://" + fdDomain + ".freshdesk.com" + apiPath);  
       request.ContentType = "application/json"; 
