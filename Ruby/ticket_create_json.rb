@@ -19,7 +19,7 @@ json_payload = { status: 2,
                  cc_emails: ['myemail@testexample.com', 'test@testexample.com'], 
                  email: 'test@test.com',
                  custom_fields: { cf_product_price: 20,
-                                  cf_product_color: 'green' } # Assuming tha there are two custom fields "Product Price" and "Product Color".
+                                  cf_product_color: 'green' } # Assuming that there are two custom fields "Product Price" and "Product Color".
                 }.to_json
 
 freshdesk_api_path = 'api/v2/tickets'
