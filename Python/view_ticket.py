@@ -15,7 +15,7 @@ ticket_id = 'TICKET_ID'
 r = requests.get("https://"+ domain +".freshdesk.com/api/v2/tickets/"+ticket_id, auth = (api_key, password))
 
 if r.status_code == 200:
-  print("Request processed successfully, the response is given below" + r.content)
+  print("Request processed successfully, the response is given below" + r.text)
 else:
   print("Failed to read ticket, errors are displayed below,")
   response = json.loads(r.content)

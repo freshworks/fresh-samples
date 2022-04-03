@@ -15,7 +15,7 @@ headers = { "Content-Type" : "application/json" }
 r = requests.post("https://"+ domain +".freshdesk.com/api/v2/contacts", auth = (api_key, password), data = json.dumps(contact_info), headers = headers)
 
 if r.status_code == 201:
-  print("Contact created successfully, the response is given below" + r.content)
+  print("Contact created successfully, the response is given below" + r.text)
   print("Location Header : " + r.headers['Location'])
 else:
   print("Failed to create contact, errors are displayed below,")

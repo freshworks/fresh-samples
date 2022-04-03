@@ -23,7 +23,7 @@ ticket = {
 r = requests.post("https://"+ domain +".freshdesk.com/api/v2/tickets", auth = (api_key, password), headers = headers, data = json.dumps(ticket))
 
 if r.status_code == 201:
-  print("Ticket created successfully, the response is given below" + r.content)
+  print("Ticket created successfully, the response is given below" + r.text)
   print("Location Header : " + r.headers['Location'])
 else:
   print("Failed to create ticket, errors are displayed below,")

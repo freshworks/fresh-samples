@@ -23,7 +23,7 @@ ticket = {
 r = requests.put("https://"+ domain +".freshdesk.com/api/v2/tickets/"+ticket_id, auth = (api_key, password), headers = headers, data = json.dumps(ticket))
 
 if r.status_code == 200:
-  print("Ticket updated successfully, the response is given below" + r.content)
+  print("Ticket updated successfully, the response is given below" + r.text)
 else:
   print("Failed to update ticket, errors are displayed below,")
   response = json.loads(r.content)

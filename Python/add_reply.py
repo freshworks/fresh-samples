@@ -21,7 +21,7 @@ note = {
 r = requests.post("https://"+ domain +".freshdesk.com/api/v2/tickets/"+ticket_id+"/reply", auth = (api_key, password), headers = headers, data = json.dumps(note))
 
 if r.status_code == 201:
-  print("Reply added successfully, the response is given below" + r.content)
+  print("Reply added successfully, the response is given below" + r.text)
   print("Location Header: " + r.headers['Location'])
 else:
   print("Failed to add reply, errors are displayed below,")
