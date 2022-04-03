@@ -1,3 +1,4 @@
+from __future__ import print_function
 ## This script requires "requests": http://docs.python-requests.org/
 ## To install: pip install requests
 
@@ -22,12 +23,12 @@ ticket = {
 r = requests.post("https://"+ domain +".freshdesk.com/api/v2/tickets", auth = (api_key, password), headers = headers, data = json.dumps(ticket))
 
 if r.status_code == 201:
-  print "Ticket created successfully, the response is given below" + r.content
-  print "Location Header : " + r.headers['Location']
+  print("Ticket created successfully, the response is given below" + r.content)
+  print("Location Header : " + r.headers['Location'])
 else:
-  print "Failed to create ticket, errors are displayed below,"
+  print("Failed to create ticket, errors are displayed below,")
   response = json.loads(r.content)
-  print response["errors"]
+  print(response["errors"])
 
-  print "x-request-id : " + r.headers['x-request-id']
-  print "Status Code : " + str(r.status_code)
+  print("x-request-id : " + r.headers['x-request-id'])
+  print("Status Code : " + str(r.status_code))
