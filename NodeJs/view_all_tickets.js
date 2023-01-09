@@ -18,7 +18,7 @@ Request.auth({
 })
 .end(function(response){
     console.log(response.body)
-    console.log("Response Status : " response.status)
+    console.log("Response Status : " + response.status)
     if(response.status != 200){
       console.log("X-Request-Id :" + response.headers['x-request-id']);
     }
