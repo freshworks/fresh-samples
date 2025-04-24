@@ -9,15 +9,18 @@ domain = "YOUR_DOMAIN"
 password = "x"
 
 multipart_data = [
-    ('email', ('','example@example.com')),
-    ('subject', ('', 'Ticket Title')),
-    ('status', ('', '2')),
-    ('priority', ('', '2')),
-    ('cc_emails[]', ('', 'sample_email@domain.com')),
-    ('cc_emails[]', ('', 'user_email@domain.com')),
+    ('email', (None,'example@example.com')),
+    ('subject', (None, 'Ticket Title')),
+    ('status', (None, '2')),
+    ('priority', (None, '2')),
+    ('cc_emails[]', (None, 'sample_email@domain.com')),
+    ('cc_emails[]', (None, 'user_email@domain.com')),
     ('attachments[]', ('logo.png', open('logo.png', 'rb'), 'image/png')),
     ('attachments[]', ('create_ticket_attachment.py', open('create_ticket_attachment.py', 'rb'), 'text/plain')),
-    ('description', ('', 'Ticket description.'))
+    ('description', (None, 'Ticket description.')),
+     # Use the following format for nested (custom) fields.
+     # ('custom_fields[cf_version]', (None, '5669')), 
+     # ('custom_fields[internal_id]', (None, 'be-6ebc6')),
 ]
 
 r = requests.post("https://"+ domain +".freshdesk.com/api/v2/tickets", auth = (api_key, password), files = multipart_data)
